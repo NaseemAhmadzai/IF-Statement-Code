@@ -1,0 +1,55 @@
+from readWords import fixWord, load_words
+
+filename = input("Type in the filename to load: ")
+# filename="test.txt"
+wordList = load_words(filename)  # Load the words from the file.
+
+
+def freqDictionary(aList):
+    '''
+Generates a frequency dictionary of the contents in
+aList.
+params: aList - a list of words.
+returns: a dictionary with each unique word and how often it is
+found in the text.
+'''
+
+    wordFreqDict = {}  # word frequency dictionary.
+    # General algorithm for this function:
+    for word in aList:
+        word = fixWord(word.lower())
+        if word == "":
+            continue
+        wordFreqDict[word] = wordFreqDict.get(word, 0) + 1
+    #         if word in wordFreqDict: #Make sure the key exists.
+    #             wordFreqDict[word] += 1
+    #         else: #Word isn't in the dictionary - yet!
+    #             wordFreqDict[word] = 1
+    return wordFreqDict
+
+
+word_freq_dict = freqDictionary(wordList)
+
+#function to reverse word_fre_dict
+def reverse_dict(words_dict):
+    list_of_numbers = list(set(words_dict.values())) #creating list of numbers without dupplicate
+    list_of_numbers.sort(reverse=True) #reversing the list
+    #creating reverse dictionary where keys will be occurance and values will be words
+    rev_dict = {}
+    for i in list_of_numbers:
+        rev_dict[i] = []
+
+    for key, value in words_dict.items():
+        rev_dict[value].append(key)
+    return rev_dict
+
+output_dict = reverse_dict(word_freq_dict)
+
+#finding top 10 most occuring words
+def top10_words(dic):
+    print('Here is the ranking of top 10 words')
+    for no, elem in enumerate(list(dic.items())[:10]):
+        print(f"{no + 1} ) ({elem[0]}, {elem[1]})")
+
+
+top10_words(output_dict)
